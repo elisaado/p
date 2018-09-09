@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
+app.disable('x-powered-by');
 
 app.get('/', (req, res) => {
 	res.render('index', {
