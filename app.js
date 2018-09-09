@@ -65,9 +65,13 @@ app.get('/r(aw)?/:id', (req, res) => {
 });
 
 app.post('/', (req, res) => {
+	let text = req.body.text;
+	if (text == "" || !text) {
+		return res.redirect(req.header('Referer') || '/');
+	}
 	generateID()
 		.then(async (id) => {
-			await db.put(id, req.body.text);
+			await db.put(id, text);
 			res.redirect(`/${id}`);
 		});
 });
