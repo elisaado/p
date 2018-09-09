@@ -1,0 +1,13 @@
+{
+  "name": "p",
+  "version": "1.0.0",
+  "description": "Quick hastebin-like paster.",
+  "main": "app.js",
+  "repository": "git@github.com:elisaado/p.git",
+  "author": "Eli Saado <eli5saado@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
