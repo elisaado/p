@@ -39,7 +39,8 @@ app.get('/:id', (req, res) => {
 			description += (description.length >= 50) ? "..." : "";
 			res.render('index', {
 				text: value,
-				description
+				description,
+				id
 			});
 		})
 		.catch(err => {
