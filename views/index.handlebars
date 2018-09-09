@@ -1,0 +1,22 @@
+<form id="form" method="post" action="/">
+	<div class="btnbar">
+		<button id="submit" type="submit">Save</button>
+	</div>
+	<textarea name="text" id="text" autofocus class="textarea">{{{text}}}</textarea>
+</form>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+$(window).bind('keydown', function(event) {
+    if (event.ctrlKey || event.metaKey) {
+        switch (String.fromCharCode(event.which).toLowerCase()) {
+        case 's':
+            event.preventDefault();
+			$("#submit").click();
+            break;
+        }
+    }
+});
+</script>
