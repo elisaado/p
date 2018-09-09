@@ -18,4 +18,16 @@
 	margin: 10px;
 }
 
+.clear {
+	float: right;
+}
+
 html, body, form { height: 100%; margin: 0 auto; }
+
+.logo {
+	text-align: center;
+}
+
+.logo p, h2 {
+	display: inline;
+}
