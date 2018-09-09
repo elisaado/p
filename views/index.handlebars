@@ -13,7 +13,7 @@
 <script type="text/javascript">
 let parts = location.href.split("/");
 let id = parts[parts.length - 1];
-let text = "{{text}}"; // hacky but it works!
+let initial = $("#text").val();
 
 ($("#text").val() === "") ? $("#clear").hide(): $("#clear").show();
 
@@ -33,11 +33,10 @@ $(window).bind('keydown', function(event) {
 });
 
 $("#form").on("submit", (event) => {
-  if (text === escapeHtml($("#text").val())) {
+  if (initial === $("#text").val()) {
     event.preventDefault();
   }
 });
-
 
 // thanks https://stackoverflow.com/a/6637396
 $(document).delegate('#text', 'keydown', function(e) {
@@ -69,13 +68,4 @@ $('#clear').on('click', () => {
   $('#text').val("");
 });
 
-// thanks, https://stackoverflow.com/a/6234804
-function escapeHtml(unsafe) {
-  return unsafe
-     .replace(/&/g, "&amp;")
-     .replace(/</g, "&lt;")
-     .replace(/>/g, "&gt;")
-     .replace(/"/g, "&quot;")
-     .replace(/'/g, "&#039;");
- }
 </script>
