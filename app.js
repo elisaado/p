@@ -32,57 +32,62 @@ app.get('/', (req, res) => {
 app.get('/:id', (req, res) => {
 	let id = req.params.id;
 
-	db.get(id, (err, value) => {
-		if (err && err.type === "NotFoundError") {
-			return res.render('error', {
-				code: 404,
-				msg: "P not found"
-			})
-		}
-
-		res.render('index', {
-			text: value
+	db.get(id)
+		.then((value) => {
+			res.render('index', {
+				text: value
+			});
+		})
+		.catch(err => {
+			if (err && err.type === "NotFoundError") {
+				res.render('error', {
+					code: 404,
+					msg: "P not found"
+				});
+			}
 		});
-	});
 });
 
 app.get('/r/:id', (req, res) => {
 	let id = req.params.id;
 	res.set('Content-Type', 'text/plain');
 
-	db.get(id, (err, value) => {
-		if (err && err.type === "NotFoundError") {
-			value = '404';
-			res.status(404);
-		}
-
-		res.send(value);
-	});
+	db.get(id)
+		.then(value => {
+			res.send(value);
+		})
+		.catch(err => {
+			if (err && err.type === "NotFoundError") {
+				res.status(404);
+				res.send('404');
+			}
+		});
 });
 
 app.post('/', (req, res) => {
-	generateID(id => {
-		db.put(id, req.body.text, (err) => {
-			res.redirect(`/${id}`)
+	generateID()
+		.then(async (id) => {
+			await db.put(id, req.body.text);
+			res.redirect(`/${id}`);
 		});
-	});
 });
 
-function generateID(callback) {
-	let id = randomstring.generate({
-		readable: true,
-		capitalization: 'lowercase',
-		charset: 'alphabetic',
-		length: 12
-	});
+async function generateID() {
+		let id = randomstring.generate({
+			readable: true,
+			capitalization: 'lowercase',
+			charset: 'alphabetic',
+			length: 12
+		});
 
-	return db.get(id, (err) => {
-		if (err && err.type === "NotFoundError") {
-			return callback(id);
-		} else {
-			return generateID(callback);
-		}
-	});
+		return db.get(id)
+			.catch(err => {
+				if (err && err.type === "NotFoundError") {
+					return id;
+				} else {
+					return generateID(callback);
+				}
+			});
 }
 
 app.listen(3000);
