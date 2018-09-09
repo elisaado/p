@@ -48,7 +48,7 @@ app.get('/:id', (req, res) => {
 		});
 });
 
-app.get('/r/:id', (req, res) => {
+app.get('/r(aw)?/:id', (req, res) => {
 	let id = req.params.id;
 	res.set('Content-Type', 'text/plain');
 
