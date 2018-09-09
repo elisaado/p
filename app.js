@@ -45,6 +45,20 @@ app.get('/:id', (req, res) => {
 	});
 });
 
+app.get('/r/:id', (req, res) => {
+	let id = req.params.id;
+	res.set('Content-Type', 'text/plain');
+
+	db.get(id, (err, value) => {
+		if (err && err.type === "NotFoundError") {
+			value = 404;
+			res.status = 404;
+		}
+
+		res.send(value);
+	});
+});
+
 app.post('/', (req, res) => {
 	generateID(id => {
 		db.put(id, req.body.text, (err) => {
