@@ -1,7 +1,9 @@
+<div class="logo"><p><h2><a href="https://github.com/elisaado/p">p</a></h2> by Eli Saado</p></div>
 <form id="form" method="post" action="/">
 	<div class="btnbar">
 		<button id="submit" type="submit">Save</button>
 		<button id="raw" type="button">Raw</button>
+		<button class="clear" id="clear" type="button">Clear</button>
 	</div>
 	<textarea name="text" id="text" autofocus class="textarea">{{{text}}}</textarea>
 </form>
@@ -12,6 +14,8 @@
 let parts = location.href.split("/");
 let id = parts[parts.length-1];
 
+($("#text").val() === "") ? $("#clear").hide() : $("#clear").show();
+
 $(window).bind('keydown', function(event) {
     if (event.ctrlKey || event.metaKey) {
         switch (String.fromCharCode(event.which).toLowerCase()) {
@@ -21,6 +25,30 @@ $(window).bind('keydown', function(event) {
             break;
         }
     }
+
+    setTimeout(() => {
+		($("#text").val() === "") ? $("#clear").hide() : $("#clear").show();
+    }, 10); // wait for textarea to fill with text after key is pressed
+});
+
+// thanks https://stackoverflow.com/a/6637396
+$(document).delegate('#text', 'keydown', function(e) {
+  var keyCode = e.keyCode || e.which;
+
+  if (keyCode == 9) {
+    e.preventDefault();
+    var start = this.selectionStart;
+    var end = this.selectionEnd;
+
+    // set textarea value to: text before caret + tab + text after caret
+    $(this).val($(this).val().substring(0, start)
+                + "\t"
+                + $(this).val().substring(end));
+
+    // put caret at right position again
+    this.selectionStart =
+    this.selectionEnd = start + 1;
+  }
 });
 
 $(document).ready(() => {
@@ -29,5 +57,9 @@ $(document).ready(() => {
 
 $('#raw').on('click', () => {
 	window.location.href = `${location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '')}/r/${id}`;
+});
+
+$('#clear').on('click', () => {
+	$('#text').val("");
 });
 </script>
