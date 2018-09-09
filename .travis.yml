@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+- stable
+- '10.10.0'
+- '10.9.0'
+
+branches:
+  only:
+    - master
+
+install:
+  - yarn global add yarn@^1.9.4
+  - yarn install
+  - yarn install --dev
+
+script:
+  - yarn build
+
+# Cache $HOME/.cache/yarn 
+cache: yarn
