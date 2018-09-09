@@ -1,6 +1,7 @@
 <form id="form" method="post" action="/">
 	<div class="btnbar">
 		<button id="submit" type="submit">Save</button>
+		<button id="raw" type="button">Raw</button>
 	</div>
 	<textarea name="text" id="text" autofocus class="textarea">{{{text}}}</textarea>
 </form>
@@ -8,6 +9,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+let parts = location.href.split("/");
+let id = parts[parts.length-1];
+
 $(window).bind('keydown', function(event) {
     if (event.ctrlKey || event.metaKey) {
         switch (String.fromCharCode(event.which).toLowerCase()) {
@@ -17,5 +21,13 @@ $(window).bind('keydown', function(event) {
             break;
         }
     }
+});
+
+$(document).ready(() => {
+	if (id === "" || !id) $('#raw').hide();
+});
+
+$('#raw').on('click', () => {
+	window.location.href = `${location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '')}/r/${id}`;
 });
 </script>
