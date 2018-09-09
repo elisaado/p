@@ -34,8 +34,12 @@ app.get('/:id', (req, res) => {
 
 	db.get(id)
 		.then((value) => {
+			value = Buffer.from(value).toString();
+			let description = value.substring(50, 0)
+			description += (description.length >= 50) ? "..." : "";
 			res.render('index', {
-				text: value
+				text: value,
+				description
 			});
 		})
 		.catch(err => {
