@@ -73,21 +73,21 @@ app.post('/', (req, res) => {
 });
 
 async function generateID() {
-		let id = randomstring.generate({
-			readable: true,
-			capitalization: 'lowercase',
-			charset: 'alphabetic',
-			length: 12
-		});
+	let id = randomstring.generate({
+		readable: true,
+		capitalization: 'lowercase',
+		charset: 'alphabetic',
+		length: 12
+	});
 
-		return db.get(id)
-			.catch(err => {
-				if (err && err.type === "NotFoundError") {
-					return id;
-				} else {
-					return generateID(callback);
-				}
-			});
+	return db.get(id)
+		.catch(err => {
+			if (err && err.type === "NotFoundError") {
+				return id;
+			} else {
+				return generateID(callback);
+			}
+		});
 }
 
 app.listen(3000);
