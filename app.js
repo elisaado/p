@@ -52,8 +52,8 @@ app.get('/r/:id', (req, res) => {
 
 	db.get(id, (err, value) => {
 		if (err && err.type === "NotFoundError") {
-			value = 404;
-			res.status = 404;
+			value = '404';
+			res.status(404);
 		}
 
 		res.send(value);
